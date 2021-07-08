@@ -1,7 +1,7 @@
 import imgs
 import pygame
 
-class Bird:
+class Pilot:
     IMGS=imgs.PILOT_IMGS
     MAX_ROTATION=25
     ROT_VEL=20
@@ -22,4 +22,13 @@ class Bird:
 
     def move(self):
         self.x += 5 * int((self.side - 0.5) * 2)
-        
+
+    def draw(self, win):
+        rotated_image = pygame.transform.rotate(self.img, self.tilt * self.side)
+        new_rect = rotated_image.get_rect(center = self.img.get_rect(topleft = (self.x, self.y)).center)
+        win.blit(rotated_image, new_rect.topleft)
+
+    def get_mask(self):
+        return pygame.mask.from_surface(self.img)
+
+

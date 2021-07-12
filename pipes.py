@@ -1,4 +1,6 @@
+from obstacle import Obstacle
 from imgs import PIPE_IMG
+import obstacle
 import random
 import pygame
 
@@ -14,6 +16,9 @@ class Pipe:
         self.PIPE_LEFT = PIPE_IMG
         self.passed = False
         self.set_dist()
+        self.left_obstacle = Obstacle(self.left, self.y)
+        self.right_obstacle = Obstacle(self.right, self.y)
+    
 
     def set_dist(self):
         self.dist = random.randrange(40,450)

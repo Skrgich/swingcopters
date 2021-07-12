@@ -27,16 +27,16 @@ class Pipe:
         win.blit(self.PIPE_LEFT,(self.y, self.left))
         win.blit(self.PIPE_LEFT, (self.y, self.right))
 
-    def collide(self, bird):
-        bird_mask = bird.get_mask()
+    def collide(self, pilot):
+        pilot_mask = pilot.get_mask()
         left_mask = pygame.mask.from_surface(self.PIPE_LEFT)
         right_mask = pygame.mask.from_surface(self.PIPE_RIGHT)
 
-        left_offset = (self.left - bird.x, self.y - round(bird.y))
-        right_offset = (self.right - bird.x, self.y - round(bird.y))
+        left_offset = (self.left - pilot.x, self.y - round(pilot.y))
+        right_offset = (self.right - pilot.x, self.y - round(pilot.y))
 
-        left_point = bird_mask.overlap(left_mask, left_offset)
-        right_point = bird_mask.overlap(right_mask, right_offset)
+        left_point = pilot_mask.overlap(left_mask, left_offset)
+        right_point = pilot_mask.overlap(right_mask, right_offset)
 
         if left_point or right_point:
             return True

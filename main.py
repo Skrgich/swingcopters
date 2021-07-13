@@ -1,3 +1,4 @@
+from pygame.surfarray import pixels_green
 from imgs import BG_IMG
 import pygame
 import time
@@ -37,4 +38,33 @@ def draw_window(win, pilot_list, pipes_list, obstacles_list, base_list, score, g
         pilot.draw(win)
 
     pygame.display.update()
+
+def main():
+
+    base_list = base.Base(730)
+    pipes_list = [pipes.Pipe(500)]
+    win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+    clock = pygame.time.Clock()
+    run = True
+    score = 0
+    while run:
+        clock.tick(1000)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                pygame.quit()
+                quit()
+        
+        pipe_ind = 0
+        if len(pilot_list) > 0:
+            if len(pipes_list) > 1 and pilot_list[0].x > pipes_list[0].x + pipes_list[0].PIPE_LEFT.get_width():
+                pipe_ind = 1
+        else:
+            run = False
+            break
+    
+        for index, pilot in enumerate(pilot_list):
+            pilot.move()
+
+            pilot.turn()
 

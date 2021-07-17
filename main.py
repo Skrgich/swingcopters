@@ -98,3 +98,6 @@ def main():
         
 
         draw_window(win, pilot_list, pipes_list, base_list, score, gen)
+
+
+main()

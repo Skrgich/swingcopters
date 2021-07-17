@@ -22,7 +22,7 @@ class Pipe:
 
     def set_dist(self):
         self.dist = random.randrange(40,450)
-        self.left = self.dist - self.PIPE_TOP.get_height()
+        self.left = self.dist - self.PIPE_LEFT.get_height()
         self.right = self.dist + self.GAP
 
     def move(self):

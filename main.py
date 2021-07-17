@@ -40,9 +40,9 @@ def draw_window(win, pilot_list, pipes_list, base_list, score, gen):
     pygame.display.update()
 
 def main():
-    pilot_list = pilots.Pilot(230, 500)
-    base_list = base.Base(730)
-    pipes_list = [pipes.Pipe(500)]
+    pilot_list = [pilots.Pilot(230, 500)]
+    base_list = base.Base()
+    pipes_list = [pipes.Pipe(100)]
     win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
     clock = pygame.time.Clock()
     run = True
@@ -76,7 +76,7 @@ def main():
                 if pipe.collide(pilot):
                     pilot_list.pop(i)
                 
-                if not pipe.passed and pipe.x < pilot.x:
+                if not pipe.passed and pipe.y > pilot.y:
                     pipe.passed = True
                     add_pipe = True
             

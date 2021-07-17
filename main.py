@@ -20,7 +20,7 @@ GEN = 0
 def get_mask(self):
     return pygame.mask.from_surface(self.img)
 
-def draw_window(win, pilot_list, pipes_list, obstacles_list, base_list, score, gen):
+def draw_window(win, pilot_list, pipes_list, base_list, score, gen):
     win.blit(imgs.BG_IMG,(0, 0))
 
     for pipe in pipes_list:
@@ -40,7 +40,7 @@ def draw_window(win, pilot_list, pipes_list, obstacles_list, base_list, score, g
     pygame.display.update()
 
 def main():
-
+    pilot_list = pilots.Pilot(230, 500)
     base_list = base.Base(730)
     pipes_list = [pipes.Pipe(500)]
     win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
@@ -68,3 +68,33 @@ def main():
 
             pilot.turn()
 
+        base_list.move()
+        rem = []
+        add_pipe = False
+        for pipe in pipes_list:
+            for i, pilot in enumerate(pilot_list):
+                if pipe.collide(pilot):
+                    pilot_list.pop(i)
+                
+                if not pipe.passed and pipe.x < pilot.x:
+                    pipe.passed = True
+                    add_pipe = True
+            
+            if pipe.x + pipe.PIPE_TOP.get_width() < 0:
+                rem.append(pipe)
+            
+            pipe.move()
+
+        if add_pipe:
+            score += 1
+            pipes_list.append(pipes.Pipe(500))
+        
+        for p in rem:
+            pipes_list.remove(p)
+        
+        for i, pilot in enumerate(pilot_list):
+            if pilot.y + pilot.img.get_height() >= 730 or pilot.y < 0:
+                pilot_list.pop(i)
+        
+
+        draw_window(win, pilot_list, pipes_list, base_list, score, gen)

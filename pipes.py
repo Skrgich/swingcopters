@@ -21,16 +21,16 @@ class Pipe:
     
 
     def set_dist(self):
-        self.dist = random.randrange(40,450)
-        self.left = self.dist - self.PIPE_LEFT.get_height()
+        self.dist = random.randrange(150, 350)
+        self.left = self.dist - self.PIPE_LEFT.get_width()
         self.right = self.dist + self.GAP
 
     def move(self):
         self.y += self.SPEED
 
     def draw(self, win):
-        win.blit(self.PIPE_LEFT,(self.y, self.left))
-        win.blit(self.PIPE_LEFT, (self.y, self.right))
+        win.blit(self.PIPE_LEFT,(self.left, self.y))
+        win.blit(self.PIPE_LEFT, (self.right, self.y))
 
     def collide(self, pilot):
         pilot_mask = pilot.get_mask()
@@ -43,6 +43,6 @@ class Pipe:
         left_point = pilot_mask.overlap(left_mask, left_offset)
         right_point = pilot_mask.overlap(right_mask, right_offset)
 
-        if left_point or right_point:
-            return True
+        # if left_point or right_point:
+        #     return True
         return False

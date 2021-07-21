@@ -15,7 +15,7 @@ WIN_HEIGHT = 800
 pygame.font.init()
 FONT = pygame.font.SysFont('comicsans', 50)
 
-GEN = 0
+gen = 0
 
 def get_mask(self):
     return pygame.mask.from_surface(self.img)
@@ -57,7 +57,7 @@ def main():
         
         pipe_ind = 0
         if len(pilot_list) > 0:
-            if len(pipes_list) > 1 and pilot_list[0].x > pipes_list[0].x + pipes_list[0].PIPE_LEFT.get_width():
+            if len(pipes_list) > 1 and pilot_list[0].y < pipes_list[0].y + pipes_list[0].PIPE_LEFT.get_width():
                 pipe_ind = 1
         else:
             run = False
@@ -80,14 +80,14 @@ def main():
                     pipe.passed = True
                     add_pipe = True
             
-            if pipe.x + pipe.PIPE_TOP.get_width() < 0:
+            if pipe.y + pipe.PIPE_LEFT.get_height() < 0:
                 rem.append(pipe)
             
             pipe.move()
 
         if add_pipe:
             score += 1
-            pipes_list.append(pipes.Pipe(500))
+            pipes_list.append(pipes.Pipe(300))
         
         for p in rem:
             pipes_list.remove(p)

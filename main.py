@@ -25,8 +25,8 @@ def draw_window(win, pilot_list, pipes_list, base_list, score, gen):
 
     for pipe in pipes_list:
         pipe.draw(win)
-        pipe.left_obstacle.draw(win, pipe.y)
-        pipe.right_obstacle.draw(win, pipe.y)
+        pipe.left_obstacle.draw(win, pipe.y, False)
+        pipe.right_obstacle.draw(win, pipe.y, True)
         pipe.left_obstacle.move()
         pipe.right_obstacle.move()
 

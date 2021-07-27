@@ -12,9 +12,9 @@ class Obstacle:
         self.tilt = 0
         self.side = True
 
-    def draw(self, win, y):
-        rotated_image = pygame.transform.rotate(self.IMG, self.tilt * self.side)
-        new_rect = rotated_image.get_rect(center = self.IMG.get_rect(topleft = (self.x, y)).center)
+    def draw(self, win, y, side):
+        rotated_image = pygame.transform.rotate(self.IMG, self.tilt )
+        new_rect = rotated_image.get_rect(center = self.IMG.get_rect(topleft = (self.x + 8 + 9 * side, y - rotated_image.get_height() / 2 + 11)).center)
         win.blit(rotated_image, new_rect.topleft)
 
     def move(self):

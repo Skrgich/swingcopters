@@ -50,7 +50,7 @@ def main():
     run = True
     score = 0
     while run:
-        clock.tick(1000)
+        clock.tick(30)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False

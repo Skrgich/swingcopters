@@ -8,7 +8,7 @@ class Pipe:
     GAP = 200
     SPEED = 5
     def __init__(self, y):
-        self.y = y
+        self.y = y - PIPE_IMG.get_height()
         self.dist = 0
         self.left = 0
         self.right = 0
@@ -17,7 +17,7 @@ class Pipe:
         self.passed = False
         self.set_dist()
         self.left_obstacle = Obstacle(self.dist - 55, self.y)  #(self.left, self.y)
-        self.right_obstacle = Obstacle(self.right, self.y)
+        self.right_obstacle = Obstacle(self.right - 30, self.y)
     
 
     def set_dist(self):

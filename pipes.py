@@ -12,11 +12,11 @@ class Pipe:
         self.dist = 0
         self.left = 0
         self.right = 0
-        self.PIPE_RIGHT = pygame.transform.flip(PIPE_IMG, False, True)
+        self.PIPE_RIGHT = pygame.transform.flip(PIPE_IMG, True, True)
         self.PIPE_LEFT = PIPE_IMG
         self.passed = False
         self.set_dist()
-        self.left_obstacle = Obstacle(self.left, self.y)
+        self.left_obstacle = Obstacle(self.dist - 55, self.y)  #(self.left, self.y)
         self.right_obstacle = Obstacle(self.right, self.y)
     
 
@@ -30,7 +30,7 @@ class Pipe:
 
     def draw(self, win):
         win.blit(self.PIPE_LEFT,(self.left, self.y))
-        win.blit(self.PIPE_LEFT, (self.right, self.y))
+        win.blit(self.PIPE_RIGHT, (self.right, self.y))
 
     def collide(self, pilot):
         pilot_mask = pilot.get_mask()

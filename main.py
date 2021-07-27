@@ -25,8 +25,10 @@ def draw_window(win, pilot_list, pipes_list, base_list, score, gen):
 
     for pipe in pipes_list:
         pipe.draw(win)
-        pipe.left_obstacle.draw(win)
-        pipe.right_obstacle.draw(win)
+        pipe.left_obstacle.draw(win, pipe.y)
+        pipe.right_obstacle.draw(win, pipe.y)
+        pipe.left_obstacle.move()
+        pipe.right_obstacle.move()
 
     text = FONT.render("Score: " + str(score), 1, (255, 255, 255))
     win.blit(text, (WIN_WIDTH - 10 - text.get_width(), 10))
@@ -42,7 +44,7 @@ def draw_window(win, pilot_list, pipes_list, base_list, score, gen):
 def main():
     pilot_list = [pilots.Pilot(230, 500)]
     base_list = base.Base()
-    pipes_list = [pipes.Pipe(100)]
+    pipes_list = [pipes.Pipe(0), pipes.Pipe(250)]
     win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
     clock = pygame.time.Clock()
     run = True
@@ -87,7 +89,7 @@ def main():
 
         if add_pipe:
             score += 1
-            pipes_list.append(pipes.Pipe(300))
+            pipes_list.append(pipes.Pipe(0))
         
         for p in rem:
             pipes_list.remove(p)

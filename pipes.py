@@ -43,6 +43,18 @@ class Pipe:
         left_point = pilot_mask.overlap(left_mask, left_offset)
         right_point = pilot_mask.overlap(right_mask, right_offset)
 
+        left_mask_obstacle = pygame.mask.from_surface(self.left_obstacle.IMG)
+        right_mask_obstacle = pygame.mask.from_surface(self.right_obstacle.IMG)
+
+        left_offset_obstacle = (self.left_obstacle.new_rect.topleft[0] - pilot.x, self.left_obstacle.new_rect.topleft[1] - round(pilot.y))
+        right_offset_obstacle = (self.right_obstacle.new_rect.topleft[0] - pilot.x, self.right_obstacle.new_rect.topleft[1] - round(pilot.y))
+
+        left_point_obstacle = pilot_mask.overlap(left_mask_obstacle, left_offset_obstacle)
+        right_point_obstacle = pilot_mask.overlap(right_mask_obstacle, right_offset_obstacle)
+
+
         if left_point or right_point:
+            return True
+        if left_point_obstacle or right_point_obstacle:
             return True
         return False

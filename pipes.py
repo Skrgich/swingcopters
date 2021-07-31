@@ -43,6 +43,6 @@ class Pipe:
         left_point = pilot_mask.overlap(left_mask, left_offset)
         right_point = pilot_mask.overlap(right_mask, right_offset)
 
-        # if left_point or right_point:
-        #     return True
+        if left_point or right_point:
+            return True
         return False

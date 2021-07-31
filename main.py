@@ -9,6 +9,7 @@ import pilots
 import base
 import pipes
 import obstacle
+import sys
 
 WIN_WIDTH = 500
 WIN_HEIGHT = 800
@@ -56,6 +57,10 @@ def main():
                 run = False
                 pygame.quit()
                 quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    for pilot in pilot_list:
+                        pilot.turn()
         
         pipe_ind = 0
         if len(pilot_list) > 0:
@@ -68,7 +73,7 @@ def main():
         for index, pilot in enumerate(pilot_list):
             pilot.move()
 
-            pilot.turn()
+            #pilot.turn()
 
         base_list.move()
         rem = []

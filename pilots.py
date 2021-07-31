@@ -19,7 +19,7 @@ class Pilot:
 
     def turn(self):
         self.side = not self.side
-        self.tilt = -self.tilt
+        self.tilt = self.tilt
         #pygame.transform.rotate(pygame.transform.flip(self.img, not self.side, 0))
 
     def move(self):

@@ -10,6 +10,7 @@ import base
 import pipes
 import obstacle
 import sys
+import neat
 
 WIN_WIDTH = 500
 WIN_HEIGHT = 800
@@ -42,8 +43,21 @@ def draw_window(win, pilot_list, pipes_list, base_list, score, gen):
 
     pygame.display.update()
 
-def main():
-    pilot_list = [pilots.Pilot(230, 500)]
+def main(genomes, config):
+    global gen
+    gen += 1
+    nets = []
+    ge = []
+    pilot_list = []
+
+    for _, g in genomes:
+        net = neat.nn.FeedForwardNetwork.create(g, config)
+        nets.append(net)
+        pilot_list.append(pilots.Pilot(230,500))
+        g.fitness = 0
+        ge.append(g)
+
+
     base_list = base.Base()
     pipes_list = [pipes.Pipe(0), pipes.Pipe(250)]
     win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
@@ -72,6 +86,11 @@ def main():
     
         for index, pilot in enumerate(pilot_list):
             pilot.move()
+            ge[index].fitness += 1
+            output = nets[index].activate((pilot.y, abs(pilot.x - pipes_list[pipe_ind].left), abs(pilot.left - pipes_list[pipe_ind].right)))
+
+            if output[0] > 0.5:
+                pilot.turn()
 
             #pilot.turn()
 
@@ -82,6 +101,9 @@ def main():
             for i, pilot in enumerate(pilot_list):
                 if pipe.collide(pilot):
                     pilot_list.pop(i)
+                    ge[i].fitness -= 1
+                    nets.pop(i)
+                    ge.pop(i)
                 
                 if not pipe.passed and pipe.y > pilot.y:
                     pipe.passed = True
@@ -95,6 +117,9 @@ def main():
         if add_pipe:
             score += 1
             pipes_list.append(pipes.Pipe(0))
+
+            for g in ge:
+                g.fitness += 5
         
         for p in rem:
             pipes_list.remove(p)
@@ -102,6 +127,8 @@ def main():
         for i, pilot in enumerate(pilot_list):
             if pilot.y + pilot.img.get_height() >= 730 or pilot.y < 0:
                 pilot_list.pop(i)
+                nets.pop(i)
+                ge.pop(i)
         
 
         draw_window(win, pilot_list, pipes_list, base_list, score, gen)

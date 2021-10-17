@@ -21,7 +21,7 @@ class Pipe:
     
 
     def set_dist(self):
-        self.dist = random.randrange(150, 350)
+        self.dist = random.randrange(100, 400)
         self.left = self.dist - self.PIPE_LEFT.get_width()
         self.right = self.dist + self.GAP
 

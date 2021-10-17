@@ -34,7 +34,7 @@ def draw_window(win, pilot_list, pipes_list, base_list, score, gen):
 
     text = FONT.render("Score: " + str(score), 1, (255, 255, 255))
     win.blit(text, (WIN_WIDTH - 10 - text.get_width(), 10))
-    text = FONT.render("Generation: " + str(score), 1, (255, 255, 255))
+    text = FONT.render("Generation: " + str(gen), 1, (255, 255, 255))
     win.blit(text, (10, 10))
 
     base_list.draw(win)
@@ -65,6 +65,7 @@ def main(genomes, config):
     run = True
     score = 0
     pipe_ind = 0
+    t = 0
     while run:
         clock.tick(1000)
         for event in pygame.event.get():
@@ -88,19 +89,58 @@ def main(genomes, config):
         if not pilot_list:
             run = False
             break
-        print(pipe_ind)
+        # print(pipe_ind)
         for index, pilot in enumerate(pilot_list):
             pilot.move()
             ge[index].fitness += 1
-            output = nets[index].activate((pilot.y, 
-            abs(pilot.x - pipes_list[pipe_ind].left), 
-            abs(pilot.x - pipes_list[pipe_ind].right),
-            pipes_list[pipe_ind].left_obstacle.tilt,
-            pipes_list[pipe_ind].right_obstacle.tilt,
-            pilot.side))
+            # if not pilot.side:
+            #      output = nets[index].activate((pilot.x, 
+            # pilot.x - pipes_list[pipe_ind].right,
+            # pipes_list[pipe_ind].right_obstacle.new_rect.topleft[0],
+            # pipes_list[pipe_ind].right_obstacle.new_rect.topleft[1]))
+            # else:
+            #      output = nets[index].activate((pilot.x, 
+            # -pilot.x + pipes_list[pipe_ind].left, 
+            # pipes_list[pipe_ind].left_obstacle.new_rect.topleft[0],
+            # pipes_list[pipe_ind].left_obstacle.new_rect.topleft[1]))
+            t = (t + 1) % 36
+            output = nets[index].activate((pilot.y - pipes_list[pipe_ind].y, 
+                (pilot.x - pipes_list[pipe_ind].left), 
+                (pilot.x - pipes_list[pipe_ind].right),
+                (pilot.x - pipes_list[pipe_ind].left_obstacle.new_rect.bottomright[0]),
+                (pilot.y - pipes_list[pipe_ind].left_obstacle.new_rect.bottomright[1]),
+                (pilot.x - pipes_list[pipe_ind].right_obstacle.new_rect.bottomleft[0]),
+                (pilot.y - pipes_list[pipe_ind].right_obstacle.new_rect.bottomleft[1]),
+                (pilot.side - 0.5) * 2
+                ))
 
-            if output[0] > 0.5:
-                pilot.turn()
+            # if pilot.side:
+            #     output = nets[index].activate((pilot.y - pipes_list[pipe_ind].y, 
+            #     (pilot.x - pipes_list[pipe_ind].left), 
+            #     (pilot.x - pipes_list[pipe_ind].right),
+            #     (pilot.x - pipes_list[pipe_ind].left_obstacle.new_rect.bottomright[0]),
+            #     (pilot.y - pipes_list[pipe_ind].left_obstacle.new_rect.bottomright[1]),
+            #     (pilot.x - pipes_list[pipe_ind].right_obstacle.new_rect.bottomleft[0]),
+            #     (pilot.y - pipes_list[pipe_ind].right_obstacle.new_rect.bottomleft[1]),
+            #     t
+            #     ))
+            # else:
+            #     output = nets[index].activate((pilot.y - pipes_list[pipe_ind].y, 
+            #     (pilot.x - pipes_list[pipe_ind].right),
+            #     (pilot.x - pipes_list[pipe_ind].left), 
+            #     (pilot.x - pipes_list[pipe_ind].right_obstacle.new_rect.bottomleft[0]),
+            #     (pilot.y - pipes_list[pipe_ind].right_obstacle.new_rect.bottomleft[1]),
+            #     (pilot.x - pipes_list[pipe_ind].left_obstacle.new_rect.bottomright[0]),
+            #     (pilot.y - pipes_list[pipe_ind].left_obstacle.new_rect.bottomright[1]),
+            #     t
+            #     ))     
+        
+            if output[0] < 0:
+                if pilot.side:
+                    pilot.turn()
+            else:
+                if not pilot.side:
+                    pilot.turn()
 
             #pilot.turn()
 

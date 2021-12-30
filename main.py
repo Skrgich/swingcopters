@@ -83,13 +83,11 @@ def main(genomes, config):
             ge[index].fitness += 1
 
             t = (t + 1) % 36
-            output = nets[index].activate((pilot.y - pipes_list[pipe_ind].y, 
+            output = nets[index].activate(
+                (pilot.y - pipes_list[pipe_ind].y, 
                 (pilot.x - pipes_list[pipe_ind].left), 
-                (pilot.x - pipes_list[pipe_ind].right),
                 (pilot.x - pipes_list[pipe_ind].left_obstacle.new_rect.bottomright[0]),
                 (pilot.y - pipes_list[pipe_ind].left_obstacle.new_rect.bottomright[1]),
-                (pilot.x - pipes_list[pipe_ind].right_obstacle.new_rect.bottomleft[0]),
-                (pilot.y - pipes_list[pipe_ind].right_obstacle.new_rect.bottomleft[1]),
                 (pilot.side - 0.5) * 2
                 ))
 

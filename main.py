@@ -18,6 +18,9 @@ pygame.font.init()
 FONT = pygame.font.SysFont('comicsans', 50)
 
 gen = 0
+scores = []
+with open ('scores.txt', mode='a') as f:
+    pass
 
 def get_mask(self):
     return pygame.mask.from_surface(self.img)
@@ -32,9 +35,9 @@ def draw_window(win, pilot_list, pipes_list, base_list, score, gen):
         pipe.left_obstacle.move()
         pipe.right_obstacle.move()
 
-    text = FONT.render("Score: " + str(score), 1, (255, 255, 255))
+    text = FONT.render("Rezultat: " + str(score), 1, (255, 255, 255))
     win.blit(text, (WIN_WIDTH - 10 - text.get_width(), 10))
-    text = FONT.render("Generation: " + str(gen), 1, (255, 255, 255))
+    text = FONT.render("Generacija: " + str(gen), 1, (255, 255, 255))
     win.blit(text, (10, 10))
 
     base_list.draw(win)
@@ -139,6 +142,9 @@ def main(genomes, config):
 
         draw_window(win, pilot_list, pipes_list, base_list, score, gen)
 
+    with open ('scores.txt', mode='a') as f:
+        f.write("{}\n".format(score))
+
 def run(config_path):
     config=neat.config.Config(neat.DefaultGenome,neat.DefaultReproduction,neat.DefaultSpeciesSet,neat.DefaultStagnation,config_path)
 
@@ -153,3 +159,6 @@ if __name__ == '__main__':
     local_dir = os.path.dirname(__file__)
     config_path = os.path.join(local_dir, 'config-feedforward.txt')
     run(config_path)
+    while True:
+        print(1)
+    print(scores)

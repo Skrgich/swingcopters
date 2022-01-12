@@ -5,7 +5,7 @@ import random
 import pygame
 
 class Pipe:
-    GAP = 165
+    GAP = 200
     SPEED = 5
     def __init__(self, y):
         self.y = y - PIPE_IMG.get_height()

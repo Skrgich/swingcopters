@@ -19,7 +19,7 @@ FONT = pygame.font.SysFont('comicsans', 50)
 
 gen = 0
 scores = []
-with open ('scores.txt', mode='a') as f:
+with open ('scores.txt', mode='w') as f:
     pass
 
 def get_mask(self):
@@ -107,8 +107,8 @@ def main(genomes, config):
         for pipe in pipes_list:
             for i, pilot in enumerate(pilot_list):
                 if pipe.collide(pilot):
+                    ge[i].fitness -= abs(pilot_list[i].x - (pipe.right - pipe.GAP // 2))
                     pilot_list.pop(i)
-                    ge[i].fitness -= 1
                     nets.pop(i)
                     ge.pop(i)
                 
@@ -143,7 +143,7 @@ def main(genomes, config):
         draw_window(win, pilot_list, pipes_list, base_list, score, gen)
 
     with open ('scores.txt', mode='a') as f:
-        f.write("{}\n".format(score))
+        f.write("{:4} {}\n".format(gen,score))
 
 def run(config_path):
     config=neat.config.Config(neat.DefaultGenome,neat.DefaultReproduction,neat.DefaultSpeciesSet,neat.DefaultStagnation,config_path)
@@ -156,6 +156,7 @@ def run(config_path):
     winner=p.run(main)
 
 if __name__ == '__main__':
+    input()
     local_dir = os.path.dirname(__file__)
     config_path = os.path.join(local_dir, 'config-feedforward.txt')
     run(config_path)
